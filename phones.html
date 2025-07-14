@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web_design</title>
+  <style>
+    nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* تصميم صندوق البحث */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 30px; /* زوّد أو قلّل الرقم حسب المسافة المطلوبة */
+}
+#searchBox {
+  width: 160px;
+  padding: 10px 35px 10px 12px;
+  font-size: 14px;
+  border: 2px solid #00ffff;
+  border-radius: 20px;
+  background-color: #222;
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+#searchBox::placeholder {
+  color: #aaa;
+}
+
+#searchBox:focus {
+  width: 220px;
+  border-color: #00dddd;
+  background-color: #111;
+  box-shadow: 0 0 10px #00ffff;
+}
+
+/* تنسيق أيقونة البحث داخل الصندوق */
+.search-icon {
+  position: absolute;
+  right: 12px; /* يضع الأيقونة داخل المربع */
+  font-size: 16px;
+  color: #aaa;
+  pointer-events: none; /* يمنع الأيقونة من التأثير على الإدخال */
+  transition: color 0.3s ease-in-out;
+}
+
+#searchBox:focus + .search-icon {
+  color: #00ffff; /* تغيير لون الأيقونة عند النقر */
+}
+
+    body {
+      background-color: #000;
+      font-family: "Cairo", sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #111;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ffff;
+    }
+
+    .logo span {
+      color: #fff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #00dddd;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+
+    .card {
+      background-color: #111;
+      border: 2px solid #00ffff;
+      width: 250px;
+      padding: 15px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .card h3 {
+      margin: 15px 0 10px;
+      font-size: 20px;
+    }
+
+    .card p {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .buy-btn {
+      background-color: #00ffff;
+      color: #000;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .buy-btn:hover {
+      background-color: #00dddd;
+    }
+
+    /* سهم الرجوع لأعلى */
+    #scrollToTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: none;
+      box-shadow: 0 0 10px #00ffffaa;
+      transition: background-color 0.3s ease;
+    }
+
+    #scrollToTopBtn:hover {
+      background-color: #00dddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شريط التنقل -->
+  <nav>
+    <div class="logo">Code<span>Vision</span></div>
+    <div class="search-container">
+        <input type="text" id="searchBox" placeholder="ابحث عن خدمة..." onkeyup="searchCards()">
+        <span class="search-icon">🔍</span>
+      </div>
+      
+    <ul>
+      <li><a href="contact.html">تواصل معنا</a></li>
+      <li><a href="services.html">الخدمات</a></li>
+      <li><a href="about.html">عن الشركة</a></li>
+      <li><a href="index.html">الرئيسية</a></li>
+    </ul>
+  </nav>
+
+  <!-- الكروت -->
+  <div class="container" id="cardContainer"></div>
+
+  <!-- زر الرجوع لأعلى -->
+  <button id="scrollToTopBtn" title="الرجوع لأعلى">↑</button>
+
+  <footer style="background-color: #111; text-align: center; padding: 15px 0; margin-top: auto;">
+    <p style="color: #fff; font-family: 'Cairo', sans-serif; font-size: 16px;">
+      © 2025 <span style="color: #00ffff;">Code</span><span style="color: #fff;">Vision</span>. جميع الحقوق محفوظة.
+    </p>
+  </footer>
+
+  <script>
+     const phones = [
+    { name: "iPhone 15 Pro Max", image: "phones_images/iphone-15-pro-max.jpg" },
+    { name: "iPhone 15 Pro", image: "phones_images/iphone-15-pro.jpg" },
+    { name: "iPhone 15", image: "phones_images/iphone-15.jpg" },
+    { name: "iPhone 14 Pro Max", image: "phones_images/iphone-14-pro-max.jpg" },
+    { name: "iPhone 14", image: "phones_images/iphone-14.jpg" },
+    { name: "iPhone 13 Pro Max", image: "phones_images/iphone-13-pro-max.jpg" },
+    { name: "iPhone 13", image: "phones_images/iphone-13.jpg" },
+    { name: "iPhone 12 Pro Max", image: "phones_images/iphone-12-pro-max.jpg" },
+    { name: "iPhone 12", image: "phones_images/iphone-12.jpg" },
+    
+    { name: "Samsung Galaxy S24 Ultra", image: "phones_images/galaxy-s24-ultra.jpg" },
+    { name: "Samsung Galaxy S24", image: "phones_images/galaxy-s24.jpg" },
+    { name: "Samsung Galaxy S23 Ultra", image: "phones_images/galaxy-s23-ultra.jpg" },
+    { name: "Samsung Galaxy S23", image: "phones_images/galaxy-s23.jpg" },
+    { name: "Samsung Galaxy S22 Ultra", image: "phones_images/galaxy-s22-ultra.jpg" },
+    { name: "Samsung Galaxy S22", image: "phones_images/galaxy-s22.jpg" },
+    { name: "Samsung Galaxy Z Fold5", image: "phones_images/galaxy-z-fold5.jpg" },
+    { name: "Samsung Galaxy Z Flip5", image: "phones_images/galaxy-z-flip5.jpg" },
+    { name: "Samsung Galaxy A74", image: "phones_images/galaxy-a74.jpg" },
+    { name: "Samsung Galaxy A54", image: "phones_images/galaxy-a54.jpg" },
+    { name: "Samsung Galaxy A34", image: "phones_images/galaxy-a34.jpg" },
+    { name: "Samsung Galaxy A24", image: "phones_images/galaxy-a24.jpg" },
+    { name: "Samsung Galaxy A14", image: "phones_images/galaxy-a14.jpg" },
+    { name: "Samsung Galaxy M54", image: "phones_images/galaxy-m54.jpg" },
+    { name: "Samsung Galaxy M34", image: "phones_images/galaxy-m34.jpg" },
+    { name: "Samsung Galaxy F54", image: "phones_images/galaxy-f54.jpg" },
+
+    { name: "Oppo Find X6 Pro", image: "phones_images/oppo-find-x6-pro.jpg" },
+    { name: "Oppo Find X5 Pro", image: "phones_images/oppo-find-x5-pro.jpg" },
+    { name: "Oppo Reno 10 Pro+", image: "phones_images/oppo-reno-10-pro-plus.jpg" },
+    { name: "Oppo Reno 9 Pro", image: "phones_images/oppo-reno-9-pro.jpg" },
+    { name: "Oppo Reno 8 Pro", image: "phones_images/oppo-reno-8-pro.jpg" },
+    { name: "Oppo Reno 7 Pro", image: "phones_images/oppo-reno-7-pro.jpg" },
+    { name: "Oppo A98", image: "phones_images/oppo-a98.jpg" },
+    { name: "Oppo A78", image: "phones_images/oppo-a78.jpg" },
+    { name: "Oppo A58", image: "phones_images/oppo-a58.jpg" },
+    { name: "Oppo K11", image: "phones_images/oppo-k11.jpg" },
+
+    { name: "Google Pixel 8 Pro", image: "phones_images/pixel-8-pro.jpg" },
+    { name: "Google Pixel 8", image: "phones_images/pixel-8.jpg" },
+    { name: "Google Pixel 7 Pro", image: "phones_images/pixel-7-pro.jpg" },
+    { name: "Google Pixel 7", image: "phones_images/pixel-7.jpg" },
+
+    { name: "Xiaomi 14 Ultra", image: "phones_images/xiaomi-14-ultra.jpg" },
+    { name: "Xiaomi 13 Ultra", image: "phones_images/xiaomi-13-ultra.jpg" },
+    { name: "Xiaomi Redmi Note 13 Pro", image: "phones_images/redmi-note-13-pro.jpg" },
+    { name: "Xiaomi Poco X5 Pro", image: "phones_images/poco-x5-pro.jpg" },
+
+    { name: "OnePlus 12", image: "phones_images/oneplus-12.jpg" },
+    { name: "OnePlus 11", image: "phones_images/oneplus-11.jpg" },
+    { name: "OnePlus 10 Pro", image: "phones_images/oneplus-10-pro.jpg" },
+
+    { name: "Huawei P60 Pro", image: "phones_images/huawei-p60-pro.jpg" },
+    { name: "Huawei Mate 50 Pro", image: "phones_images/huawei-mate-50-pro.jpg" },
+    { name: "Huawei Nova 11 Ultra", image: "phones_images/huawei-nova-11-ultra.jpg" },
+
+    { name: "Realme GT3", image: "phones_images/realme-gt3.jpg" },
+    { name: "Realme 11 Pro+", image: "phones_images/realme-11-pro-plus.jpg" },
+
+    { name: "Vivo X90 Pro", image: "phones_images/vivo-x90-pro.jpg" },
+    { name: "Vivo V27 Pro", image: "phones_images/vivo-v27-pro.jpg" },
+
+    { name: "Sony Xperia 1 V", image: "phones_images/sony-xperia-1-v.jpg" },
+    { name: "Sony Xperia 5 IV", image: "phones_images/sony-xperia-5-iv.jpg" },
+
+    { name: "Motorola Edge 40 Pro", image: "phones_images/motorola-edge-40-pro.jpg" },
+    { name: "Motorola Razr 40 Ultra", image: "phones_images/motorola-razr-40-ultra.jpg" },
+
+    { name: "Asus ROG Phone 7", image: "phones_images/asus-rog-phone-7.jpg" },
+    { name: "Asus Zenfone 10", image: "phones_images/asus-zenfone-10.jpg" },
+
+    { name: "Nothing Phone (2)", image: "phones_images/nothing-phone-2.jpg" },
+    { name: "Nothing Phone (1)", image: "phones_images/nothing-phone-1.jpg" },
+
+    { name: "Honor Magic 5 Pro", image: "phones_images/honor-magic-5-pro.jpg" },
+    { name: "Honor 90 Pro", image: "phones_images/honor-90-pro.jpg" }
+];
+
+
+    const container = document.getElementById("cardContainer");
+
+    phones.forEach(phone => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <img src="${phone.image}" alt="${phone.name}">
+            <h3>${phone.name}</h3>
+            <p>أفضل المزايا وأحدث التقنيات لهذا الهاتف.</p>
+            <button class="buy-btn">اشتري الآن</button>
+        `;
+        container.appendChild(card);
+    });
+    document.getElementById("scrollToTopBtn").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+window.onscroll = function () {
+    if (document.documentElement.scrollTop > 300) {
+        scrollToTopBtn.style.display = "block";
+        scrollToTopBtn.style.opacity = "1";
+        scrollToTopBtn.style.transform = "scale(1)";
+    } else {
+        scrollToTopBtn.style.opacity = "0";
+        scrollToTopBtn.style.transform = "scale(0.8)";
+        setTimeout(() => {
+            if (document.documentElement.scrollTop <= 300) {
+                scrollToTopBtn.style.display = "none";
+            }
+        }, 300);
+    }
+};
+
+scrollToTopBtn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+</body>
+</html>

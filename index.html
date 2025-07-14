@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVision - الرئيسية</title>
+    <style>
+   .settings-icon {
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.settings-menu {
+    display: none;
+    position: absolute;
+    background: #222;
+    padding: 10px;
+    border-radius: 5px;
+    top: 50px;
+    right: 10px;
+}
+
+.settings-menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    cursor: pointer;
+}
+     
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #111;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+        }
+
+ nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row-reverse; /* لعكس ترتيب العناصر */
+}
+
+nav a {
+    margin: 0 3px; /* تقليل المسافة بين الروابط */
+}
+ .search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 5px; /* زوّد أو قلّل الرقم حسب المسافة المطلوبة */
+}
+#searchBox {
+  width: 160px;
+  padding: 10px 35px 10px 12px;
+  font-size: 14px;
+  border: 2px solid #00ffff;
+  border-radius: 20px;
+  background-color: #222;
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+#searchBox::placeholder {
+  color: #aaa;
+}
+
+#searchBox:focus {
+  width: 220px;
+  border-color: #00dddd;
+  background-color: #111;
+  box-shadow: 0 0 10px #00ffff;
+}
+
+/* تنسيق أيقونة البحث داخل الصندوق */
+.search-icon {
+  position: absolute;
+  right: 12px; /* يضع الأيقونة داخل المربع */
+  font-size: 16px;
+  color: #aaa;
+  pointer-events: none; /* يمنع الأيقونة من التأثير على الإدخال */
+  transition: color 0.3s ease-in-out;
+}
+
+#searchBox:focus + .search-icon {
+  color: #00ffff; /* تغيير لون الأيقونة عند النقر */
+}
+ 
+        body { background-color: #000; color: #fff; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
+        header { background-color: #111; padding: 15px; display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; }
+        .logo { font-size: 24px; font-weight: bold; }
+        nav a { color: #00eaff; margin-left: 20px; text-decoration: none; }
+        .hero { margin-top: 50px; }
+        .hero h1 { font-size: 36px; }
+        .hero p { font-size: 18px; margin-bottom: 20px; }
+        .btn { background-color: #00eaff; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 18px; }
+
+        /* تصميم المربعات وجعلها جنب بعض */
+        .services-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .service-box {
+            background-color: #222;
+            border: 2px solid #00eaff;
+            padding: 20px;
+            width: 280px;
+            height: 450px; /* زيادة الارتفاع */
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* لضبط المحتوى نحو الأسفل */
+            transition: transform 0.3s ease-in-out;
+        }
+        .service-box:hover {
+            transform: scale(1.1);
+        }
+        .service-box img {
+            width: 100%;
+            height: 180px;
+            border-radius: 5px;
+        }
+        .service-box h3 {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+        .service-box p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .service-box a {
+            display: block;
+            color: #00eaff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #111;
+            margin-top: 10px;
+            text-align: center;
+        }
+        footer { margin-top: 50px; padding: 20px; background-color: #111; font-size: 14px; }
+        #scrollToTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: none;
+      box-shadow: 0 0 10px #00ffffaa;
+      transition: background-color 0.3s ease;
+    }
+
+    #scrollToTopBtn:hover {
+      background-color: #00dddd;
+    }
+    </style>
+</head>
+<body>
+    <button id="scrollToTopBtn" title="الرجوع لأعلى">↑</button>
+
+    <script>
+       function searchCards() {
+    let input = document.getElementById("searchBox").value.toLowerCase();
+    let boxes = document.querySelectorAll(".service-box"); // البحث في service-box بدلاً من card
+
+    boxes.forEach(box => {
+        let title = box.querySelector("h3").textContent.toLowerCase();
+        if (title.includes(input)) {
+            box.style.display = "block";
+        } else {
+            box.style.display = "none";
+        }
+    });
+}
+
+document.getElementById("scrollToTopBtn").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+window.onscroll = function () {
+    if (document.documentElement.scrollTop > 300) {
+        scrollToTopBtn.style.display = "block";
+        scrollToTopBtn.style.opacity = "1";
+        scrollToTopBtn.style.transform = "scale(1)";
+    } else {
+        scrollToTopBtn.style.opacity = "0";
+        scrollToTopBtn.style.transform = "scale(0.8)";
+        setTimeout(() => {
+            if (document.documentElement.scrollTop <= 300) {
+                scrollToTopBtn.style.display = "none";
+            }
+        }, 300);
+    }
+};
+
+scrollToTopBtn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+function toggleSettingsMenu() {
+    var menu = document.getElementById("settingsMenu");
+    if (menu.style.display === "block") {
+        menu.style.display = "none";
+    } else {
+        menu.style.display = "block";
+    }
+}
+
+
+    </script>
+    <header>
+        <nav>
+           
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="searchBox" placeholder="ابحث عن خدمة..." onkeyup="searchCards()">
+                <span class="search-icon">🔍</span>
+              </div>
+              
+            <a href="contact.html">تواصل معنا </a>
+            <a href="services.html"> الخدمات</a>
+            <a href="about.html">عن الشركة</a>
+            <a href="index.html">الرئيسية</a>
+            <a href="#" class="settings-icon" onclick="toggleSettingsMenu()">⚙️</a>
+<div class="settings-menu" id="settingsMenu">
+    
+    
+</div>
+
+</div>
+
+        </nav>
+        <div class="logo">
+            <span style="color: #00eaff;">Code</span><span style="color: #fff;">Vision</span>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>مرحبًا بك في <span style="color: #00eaff;">Code</span><span style="color: #fff;">Vision</span></h1>
+        <p>نقدم حلولًا برمجية متكاملة لتحويل أفكارك إلى مشاريع ناجحة، بأحدث التقنيات وأفضل جودة.</p>
+        <p>هل تبحث عن تصميم موقع إلكتروني احترافي؟ أو تحتاج إلى تطوير تطبيق موبايل؟</p>
+        <p>اضغط على الخدمة التي تناسبك، واترك الباقي لنا!</p>
+    </section>
+    <!-- العنوان الأول -->
+<h2 style="text-align: center; color: #fff; margin-top: 40px; font-size: 28px;">Software</h2>
+
+<section class="services-container">
+    <div class="service-box">
+        <img src="web_design.webp" alt="تصميم مواقع إلكترونية">
+        <h3>تصميم مواقع إلكترونية</h3>
+        <p>تصميم مواقع احترافية تناسب احتياجاتك.</p>
+        <p>سريعة ومتوافقة مع جميع الأجهزة.</p>
+        <p>تحسين SEO لظهور موقعك في محركات البحث.</p>
+        <a href="web_design.html">عرض المزيد</a>
+    </div>
+    <div class="service-box">
+        <img src="graphic_design.webp" alt="تصميم جرافيكي">
+        <h3>تصميم جرافيكي</h3>
+        <p>تصميم شعارات وبطاقات أعمال.</p>
+        <p>إعلانات رقمية وبوستات سوشيال ميديا.</p>
+        <p>هويات بصرية متكاملة للشركات.</p>
+        <a href="graphic_design.html">عرض المزيد</a>
+    </div>
+    <div class="service-box">
+        <img src="mobile_apps.webp" alt="تطوير تطبيقات موبايل">
+        <h3>تطوير تطبيقات موبايل</h3>
+        <p>تطوير تطبيقات أندرويد و iOS.</p>
+        <p>واجهة مستخدم جذابة وسهلة الاستخدام.</p>
+        <p>تكامل مع أحدث التقنيات السحابية.</p>
+        <a href="mobile_apps.html">عرض المزيد</a>
+    </div>
+    <div class="service-box">
+        <img src="system_programming.webp" alt="برمجة أنظمة متكاملة">
+        <h3>برمجة أنظمة متكاملة</h3>
+        <p>أنظمة إدارة محتوى مخصصة.</p>
+        <p>تطوير حلول برمجية للمؤسسات.</p>
+        <p>أنظمة ذكاء اصطناعي وتحليل بيانات.</p>
+        <a href="system_programming.html">عرض المزيد</a>
+    </div>
+</section>
+
+<!-- العنوان الثاني -->
+<h2 style="text-align: center; color: #fff; margin-top: 60px; font-size: 28px;">Hardware</h2>
+
+<section class="services-container">
+    <!-- المربع الأول: الهواتف -->
+    <div class="service-box">
+        <img src="phones.webp" alt="الهواتف الذكية">
+        <h3>الهواتف الذكية</h3>
+        <p>مجموعة متنوعة من أحدث الهواتف الذكية.</p>
+        <p>أفضل الأسعار والعروض الحصرية.</p>
+        <p>ضمان رسمي لجميع الأجهزة.</p>
+        <a href="phones.html">عرض المزيد</a>
+    </div>
+
+    <!-- المربع الثاني: اللابتوبات والكمبيوترات -->
+    <div class="service-box">
+        <img src="laptops.webp" alt="أجهزة الابتوب">
+        <h3>أجهزة الابتوب</h3>
+        <p>أجهزة لابتوب خفيفة الوزن وسهلة الحمل.</p>
+        <p>بطارية تدوم لساعات طويلة مع أداء قوي.</p>
+        <p>مناسبة للطلاب، المصممين، والمبرمجين.</p>
+        <a href="laptops.html">عرض المزيد</a>
+    </div>
+
+    <!-- المربع الثالث: الأجهزة المنزلية -->
+    <div class="service-box">
+        <img src="pcs.webp" alt="أجهزة الكمبيوتر">
+        <h3>اجهزة الكمبيوتر</h3>
+        <p>أداء فائق مناسب للأعمال الاحترافية.</p>
+        <p>إمكانية الترقية والتخصيص حسب الاحتياج.</p>
+        <p>مثالي للألعاب، البرمجة،  والجرافيك.</p>
+        <a href="desktops.html">عرض المزيد</a>
+    </div>
+
+    <!-- المربع الرابع: الإكسسوارات -->
+    <div class="service-box">
+        <img src="accessories.webp" alt="الإكسسوارات">
+        <h3>الإكسسوارات</h3>
+        <p>أغطية حماية، سماعات، شواحن والمزيد.</p>
+        <p>جودة عالية وأسعار مناسبة.</p>
+        <p>متوفرة لجميع الأجهزة الإلكترونية.</p>
+        <a href="accessories.html">عرض المزيد</a>
+    </div>
+</section>
+<!-- العنوان الثالث -->
+<h2 style="text-align: center; color: #fff; margin-top: 60px; font-size: 28px;">خدمات متنوعة</h2>
+
+<!-- العنوان الثالث -->
+
+<section class="services-container">
+    <!-- المربع الأول: أبحاث -->
+    <div class="service-box">
+        <img src="fridges.webp" alt="أبحاث">
+        <h3>أبحاث</h3>
+        <p>أحدث الأبحاث التقنية والعلمية المفيدة.</p>
+        <p>محتوى تعليمي غني ومتنوع لجميع الفئات.</p>
+        <p>يتم تحديثه باستمرار بأحدث الإصدارات.</p>
+        <a href="research.html">عرض المزيد</a>
+    </div>
+
+    <!-- المربع الثاني: عدد -->
+    <div class="service-box">
+        <img src="washing_machines.webp" alt="عدد">
+        <h3>عدد</h3>
+        <p>أدوات يدوية وكهربائية متنوعة.</p>
+        <p>جودة عالية وأسعار منافسة.</p>
+        <p>مناسبة للأعمال المنزلية والورش.</p>
+        <a href="tools.html">عرض المزيد</a>
+    </div>
+
+   <!-- المربع الثالث: صفحات -->
+<div class="service-box">
+    <img src="social_pages.webp" alt="صفحات سوشيال ميديا">
+    <h3>صفحات سوشيال ميديا</h3>
+    <p>ننشئ لك صفحات احترافية على فيسبوك، إنستجرام، يوتيوب، تويتر وغيرها.</p>
+    <p>تصميم غلاف وصورة شخصية، وضبط الإعدادات.</p>
+    <p>نوفر لك بداية قوية على السوشيال ميديا.</p>
+    <a href="social-pages.html">عرض المزيد</a>
+</div>
+
+<div class="service-box">
+    <img src="email_services.webp" alt="إنشاء إيميلات">
+    <h3>إنشاء إيميلات</h3>
+    <p>ننشئ لك بريد إلكتروني على Gmail، Yahoo، Outlook أو إيميلات خاصة بشركتك.</p>
+    <p>بإعدادات احترافية وجهوزية كاملة للتواصل.</p>
+    <p>خدمة موثوقة وسريعة.</p>
+    <a href="email-services.html">عرض المزيد</a>
+</div>
+</section>
+
+<footer>&copy; 2025 <span style="color: #00eaff;">Code</span><span style="color: #fff;">Vision</span>. جميع الحقوق محفوظة.</footer>
+    
+</body>
+</html>
